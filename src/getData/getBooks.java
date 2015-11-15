@@ -6,8 +6,13 @@ public class getBooks {
 	// replace KEY with API key
 	// set date=_____  desired date of list in form YYYY-MM-DD
 	
+	// Q: Do I need to get the history of the books on the list separately?
+	// (Total number of weeks on list, etc.)
+	// MAINLY: Does 'weeks on list' mean in total, or in a row???
+	
+	
 	// API request format, Google Bestsellers:
-	// GETGET https://www.googleapis.com/books/v1/volumes?q=TITLEKEYWORD+isbn=ISBN:keyes&key=KEY
+	// GET https://www.googleapis.com/books/v1/volumes?q=TITLEKEYWORD+isbn=ISBN:keyes&key=KEY
 	// replace KEY with API key
 	// replace TITLEKEYWORD with title keyword
 	// replace ISBN with an isbn number
