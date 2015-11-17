@@ -15,8 +15,8 @@ public class getBooks {
 
 			getBooks bestsellers = new getBooks();
 
-	//		String url = "http://api.nytimes.com/svc/books/v2/lists.json?list=hardcover-fiction&date=2015-11-08&api-key=";
-	//		bestsellers.sendGet(url);
+			String url = "http://api.nytimes.com/svc/books/v2/lists.json?list=hardcover-fiction&date=2015-11-08&api-key=" + keyHolder.key1;
+			bestsellers.sendGet(url);
 			
 			//making and formatting dates
 			SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
