@@ -3,6 +3,7 @@ package getData;
 import java.io.*;
 import java.net.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -15,8 +16,8 @@ public class getBooks {
 
 			getBooks bestsellers = new getBooks();
 
-			String url = "http://api.nytimes.com/svc/books/v2/lists.json?list=hardcover-fiction&date=2015-11-08&api-key=" + keyHolder.key1;
-			bestsellers.sendGet(url);
+			//String url = "http://api.nytimes.com/svc/books/v2/lists.json?list=hardcover-fiction&date=2015-11-08&api-key=" + keyHolder.key1;
+			//bestsellers.sendGet(url);
 			
 			//making and formatting dates
 			SimpleDateFormat ft = new SimpleDateFormat ("yyyy-MM-dd");
@@ -32,9 +33,18 @@ public class getBooks {
 				System.out.println("startDate is before endDate");
 			}
 			
+			ArrayList<JSONObject> jsonArr = new ArrayList<JSONObject>();
+			Date d = startDate;
+			while (d.compareTo(endDate) < 0){
+				String url = "http://api.nytimes.com/svc/books/v2/lists.json?list=hardcover-fiction&date=" + ft.format(d) + "&api-key=" + keyHolder.key1;
+				jsonArr.add(bestsellers.sendGet(url));
+				d = nextWeek(d);
+				Thread.sleep(8575);
+			}
+			System.out.println(jsonArr.size());
 
 	}
-	private void sendGet(String url) throws Exception {
+	private JSONObject sendGet(String url) throws Exception {
 		
 		URL asURL = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) asURL.openConnection();
@@ -59,7 +69,8 @@ public class getBooks {
 		System.out.println(response.toString());
 		JSONObject json = new JSONObject(response.toString());
 		System.out.println(json.get("num_results"));
-
+		
+		return json;
 	}
 	
 	public static Date nextWeek(Date date){
