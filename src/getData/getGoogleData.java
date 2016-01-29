@@ -8,10 +8,7 @@ import java.net.URL;
 import org.json.JSONObject;
 
 public class getGoogleData {
-	/**
-	 * @param args
-	 * @throws Exception 
-	 */
+	
 	public static void main(String[] args) throws Exception {
 		
 		getGoogleData googleBooks = new getGoogleData();
@@ -24,8 +21,9 @@ public class getGoogleData {
 		String title = "THE GIRL ON THE TRAIN";
 		String ISBN = "9781594633669";
 		String publisher = "Riverhead";
-		String url = "https://www.googleapis.com/books/v1/volumes?q=" + title + "+intitle:" + title + "+inpublisher:" + publisher + "+isbn:" + ISBN + "&key=" + keyHolder.key2;
-		googleBooks.sendGet(url);
+		String url = "https://www.googleapis.com/books/v1/volumes?q=" + title + "+intitle:" + title + "+inpublisher:" + publisher + "+isbn:" + ISBN + "&key=" + keyHolder.key3;
+		//googleBooks.sendGet(url);
+		googleBooks.sendGet("https://www.googleapis.com/books/v1/volumes?q=ROGUE LAWYER+intitle:ROGUE LAWYER+inpublisher:Doubleday+isbn:9780385539432&key=" + keyHolder.key3);
 		
 	}
 	
