@@ -18,12 +18,12 @@ public class getGoogleData {
 		// replace KEY with API key
 		// replace TITLEKEYWORD with title keyword
 		// replace ISBN with an isbn number
-		String title = "THE GIRL ON THE TRAIN";
+		
+		String title = "THE%20GIRL%20ON%20THE%20TRAIN";
 		String ISBN = "9781594633669";
 		String publisher = "Riverhead";
 		String url = "https://www.googleapis.com/books/v1/volumes?q=" + title + "+intitle:" + title + "+inpublisher:" + publisher + "+isbn:" + ISBN + "&key=" + keyHolder.key3;
-		//googleBooks.sendGet(url);
-		googleBooks.sendGet("https://www.googleapis.com/books/v1/volumes?q=ROGUE LAWYER+intitle:ROGUE LAWYER+inpublisher:Doubleday+isbn:9780385539432&key=" + keyHolder.key3);
+		googleBooks.sendGet(url);
 		
 	}
 	
@@ -51,7 +51,7 @@ public class getGoogleData {
 		//print result
 		System.out.println(response.toString());
 		JSONObject json = new JSONObject(response.toString());
-		System.out.println(json.get("num_results"));
+		//System.out.println(json.get("num_results"));
 		
 		return json;
 	}
