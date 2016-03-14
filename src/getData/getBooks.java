@@ -1,13 +1,14 @@
 package getData;
 
 import java.io.*;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -85,6 +86,8 @@ public class getBooks {
 				JSONObject result = bestsellers.sendGet(url);
 				Thread.sleep(125);
 				if (result.getInt("totalItems") == 1){
+					JSONArray hold = result.getJSONArray("items");
+					result = hold.getJSONObject(0);
 					googleArr.add(result);
 				}
 				else if (result.getInt("totalItems") > 1){
@@ -97,6 +100,8 @@ public class getBooks {
 					result = bestsellers.sendGet(url2);
 					Thread.sleep(125);
 					if (result.getInt("totalItems") == 1){
+						JSONArray hold = result.getJSONArray("items");
+						result = hold.getJSONObject(0);
 						googleArr.add(result);
 					}
 					else if (result.getInt("totalItems") > 1){
@@ -115,7 +120,20 @@ public class getBooks {
 				}
 			}
 			System.out.println("number of google books: " + googleArr.size());
+			
+			// Time to use the google books array (and the books array) to finish making the book. (Adding on the google books data.)
+			for (int i = 0; i < googleArr.size(); i++){
+				//all the books will still be in bookArr
+				//adding the google data to each book element in bookArr
+				Book.finishBook(googleArr.get(i), bookArr.get(i));
+				System.out.println("finished a book");
+			}
+			System.out.println("books are fully created");
+			
+			// Making the csv file! ALMOST DONE!
+			generateCsvFile("C:\\Users\\Humza\\Desktop\\BookSeniorSem.csv");
 	}
+	
 	
 	public static int bookInList(ArrayList<Book> bookArr, Book tempBook){
 		for (int k = 0; k < bookArr.size(); k++){
@@ -164,7 +182,108 @@ public class getBooks {
 		newDate.setTime(calendar.getTime().getTime());
 		return newDate;
 	}
+
+private static void generateCsvFile(String sFileName)
+{
+	try
+	{
+	    FileWriter writer = new FileWriter(sFileName);
+		
+	    System.out.println("making file");
+	    
+	    // Headers
+	    writer.append("isbn");
+	    writer.append(',');
+	    writer.append("listDate");
+	    writer.append(',');
+	    writer.append("highestRank");
+	    writer.append(',');
+	    writer.append("mostWeeksOnList");
+	    writer.append(',');
+	    writer.append("title");
+	    writer.append(',');
+	    writer.append("author");
+	    writer.append(',');
+	    writer.append("price");
+	    writer.append(',');
+	    writer.append("ageGroup");
+	    writer.append(',');
+	    writer.append("publisher");
+	    writer.append(',');
+	    writer.append("bookURL");
+	    writer.append(',');
+	    writer.append("googTitle");
+	    writer.append(',');
+	    writer.append("googAuths");
+	    writer.append(',');
+	    writer.append("googPublisher");
+	    writer.append(',');
+	    writer.append("googPublishDate");
+	    writer.append(',');
+	    writer.append("googDescription");
+	    writer.append(',');
+	    writer.append("googISBN");
+	    writer.append(',');
+	    writer.append("googModeText");
+	    writer.append(',');
+	    writer.append("googModeImage");
+	    writer.append(',');
+	    writer.append("googPageCount");
+	    writer.append(',');
+	    writer.append("googPrintType");
+	    writer.append(',');
+	    writer.append("googCats");
+	    writer.append(',');
+	    writer.append("googAvgRating");
+	    writer.append(',');
+	    writer.append("googRatingCount");
+	    writer.append(',');
+	    writer.append("googMaturity");
+	    writer.append(',');
+	    writer.append("googLang");
+	    writer.append(',');
+	    writer.append("googCountry");
+	    writer.append(',');
+	    writer.append("googEbook");
+	    writer.append(',');
+	    writer.append("googListPrice");
+	    writer.append(',');
+	    writer.append("googRetailPrice");
+	    writer.append(',');
+	    writer.append("googViewablility");
+	    writer.append(',');
+	    writer.append("googEmbeddable");
+	    writer.append(',');
+	    writer.append("googPublicDomain");
+	    writer.append(',');
+	    writer.append("googTextToSpeech");
+	    writer.append(',');
+	    writer.append("googAccessStatus");
+	    writer.append(',');
+	    writer.append("googQuoteShare");
+	    writer.append(',');
+	    writer.append("googSnippet");
+	    writer.append('\n');
+
+	    // data
+	    //writer.append("MKYONG");
+	    //writer.append(',');
+	    //writer.append("26");
+        //writer.append('\n');
+			
+	    writer.flush();
+	    writer.close();
+	}
+	catch(IOException e)
+	{
+	     e.printStackTrace();
+	} 
+ }
 }
+
+
+
+
 
 // API request format, NYT Bestsellers:
 // GET http://api.nytimes.com/svc/books/v2/lists.json?list=hardcover-fiction&date=2015-11-08&api-key=KEY

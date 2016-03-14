@@ -6,6 +6,7 @@ import org.json.JSONException;
 
 public class Book {
 
+	// NYT Data
 	public String isbn;
 	public String listDate;
 	public int highestRank;
@@ -15,6 +16,35 @@ public class Book {
 	public int price;
 	public String ageGroup;
 	public String publisher;
+	
+	// Google Books Data
+	public String bookURL;
+	public String googTitle;
+	public String googAuths;
+	public String googPublisher;
+	public String googPublishDate;
+	public String googDescription;
+	public String googISBN;
+	public boolean googModeText;
+	public boolean googModeImage;
+	public int googPageCount;
+	public String googPrintType;
+	public String googCats;
+	public int googAvgRating;
+	public int googRatingCount;
+	public String googMaturity;
+	public String googLang;
+	public String googCountry;
+	public boolean googEbook;
+	public double googListPrice;
+	public double googRetailPrice;
+	public String googViewability;
+	public boolean googEmbeddable;
+	public boolean googPublicDomain;
+	public String googTextToSpeech;
+	public String googAccessStatus;
+	public boolean googQuoteShare;
+	public String googSnippet;
 
 	public Book(JSONObject book) throws JSONException {
 		listDate = book.getString("bestsellers_date");
@@ -29,5 +59,59 @@ public class Book {
 		publisher = bookDetails.getString("publisher");
 		isbn = bookDetails.getString("primary_isbn13");
 	}
+	
+	public static void finishBook(JSONObject googleJSON, Book bk) throws JSONException {
+		try{
+			bk.bookURL = googleJSON.getString("selfLink");
+			JSONObject volInfo = googleJSON.getJSONObject("volumeInfo");
+			bk.googTitle = volInfo.getString("title");
+			JSONArray authors = volInfo.getJSONArray("authors");
+			bk.googAuths = (String)authors.get(0);
+			for (int a = 1; a < authors.length(); a++){
+				bk.googAuths = bk.googAuths + " : " + (String)authors.get(a);
+			}
+			bk.googPublisher = volInfo.getString("publisher");
+			bk.googPublishDate = volInfo.getString("publishedDate");
+			bk.googDescription = volInfo.getString("description");
+			JSONArray identifiers = volInfo.getJSONArray("industryIdentifiers");
+			bk.googISBN = identifiers.getString(1);
+			JSONObject readModes = volInfo.getJSONObject("readingModes");
+			bk.googModeText = readModes.getBoolean("text");
+			bk.googModeImage = readModes.getBoolean("image");
+			bk.googPageCount = volInfo.getInt("pageCount");
+			bk.googPrintType = volInfo.getString("printType");
+			JSONArray cats = volInfo.getJSONArray("categories");
+			bk.googCats = cats.getString(0);
+			for (int c = 1; c < cats.length(); c++){
+				bk.googCats = bk.googCats + " : " + cats.getString(c);
+			}
+			bk.googAvgRating = volInfo.getInt("averageRating");
+			bk.googRatingCount = volInfo.getInt("ratingsCount");
+			bk.googMaturity = volInfo.getString("maturityRating");
+			bk.googLang = volInfo.getString("language");
 
+			JSONObject saleInfo = googleJSON.getJSONObject("saleInfo");
+			bk.googCountry = saleInfo.getString("country");
+			bk.googEbook = saleInfo.getBoolean("isEbook");
+			JSONObject listPrice = saleInfo.getJSONObject("listPrice");
+			bk.googListPrice = listPrice.getDouble("listPrice");
+			JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
+			bk.googRetailPrice = retailPrice.getDouble("amount");
+
+			JSONObject accessInfo = googleJSON.getJSONObject("accessInfo");
+			bk.googViewability = accessInfo.getString("viewability");
+			bk.googEmbeddable = accessInfo.getBoolean("embeddable");
+			bk.googPublicDomain = accessInfo.getBoolean("publicDomain");
+			bk.googTextToSpeech = accessInfo.getString("textToSpeechPermission");
+			bk.googAccessStatus = accessInfo.getString("accessViewStatus");
+			bk.googQuoteShare = accessInfo.getBoolean("quoteSharingAllowed");
+			JSONObject searchInfo = accessInfo.getJSONObject("searchInfo");
+			bk.googSnippet = searchInfo.getString("textSnippet");
+
+		}
+		catch (Exception e){
+			System.out.println(e);
+		}
+	}
+	
 }
