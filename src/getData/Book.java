@@ -23,7 +23,7 @@ public class Book {
 	public String googAuths;
 	public String googPublisher;
 	public String googPublishDate;
-	public String googDescription;
+	//public String googDescription;
 	public String googISBN;
 	public boolean googModeText;
 	public boolean googModeImage;
@@ -44,7 +44,7 @@ public class Book {
 	public String googTextToSpeech;
 	public String googAccessStatus;
 	public boolean googQuoteShare;
-	public String googSnippet;
+	//public String googSnippet;
 
 	public Book(JSONObject book) throws JSONException {
 		listDate = book.getString("bestsellers_date");
@@ -57,6 +57,7 @@ public class Book {
 		price = bookDetails.getInt("price");
 		ageGroup = bookDetails.getString("age_group");
 		publisher = bookDetails.getString("publisher");
+		publisher = publisher.replaceAll(",", "");
 		isbn = bookDetails.getString("primary_isbn13");
 	}
 	
@@ -78,21 +79,24 @@ public class Book {
 			
 			try{
 			bk.googPublisher = volInfo.getString("publisher");
+			bk.googPublisher = bk.googPublisher.replaceAll(",", "");
+
 			}
 			catch (Exception E){	
 			}
 			
 			bk.googPublishDate = volInfo.getString("publishedDate");
 			
-			try{
-				bk.googDescription = volInfo.getString("description");
-			}
-			catch (Exception e){
-			}
+//			try{
+//				bk.googDescription = volInfo.getString("description");
+//			}
+//			catch (Exception e){
+//			}
 			
 			try{
 				JSONArray identifiers = volInfo.getJSONArray("industryIdentifiers");
-				bk.googISBN = identifiers.getString(1);
+				JSONObject ident = identifiers.getJSONObject(1);
+				bk.googISBN = ident.getString("identifier");
 			}
 			catch (Exception e) {
 			}
@@ -143,12 +147,12 @@ public class Book {
 			catch (Exception e){
 			}
 
-			try{
-				JSONObject searchInfo = googleJSON.getJSONObject("searchInfo");
-				bk.googSnippet = searchInfo.getString("textSnippet");
-			}
-			catch (Exception e){
-			}
+//			try{
+//				JSONObject searchInfo = googleJSON.getJSONObject("searchInfo");
+//				bk.googSnippet = searchInfo.getString("textSnippet");
+//			}
+//			catch (Exception e){
+//			}
 
 		}
 		catch (Exception e){

@@ -82,7 +82,7 @@ public class getBooks {
 				String publisher = bookArr.get(w).publisher;
 				publisher = publisher.replaceAll(",",  "");
 				publisher = publisher.replaceAll("\\s",  "%20");
-				String url = "https://www.googleapis.com/books/v1/volumes?q=" + title + "+intitle:" + title + "+inpublisher:" + publisher + "+isbn:" + ISBN + "&key=" + keyHolder.key3;
+				String url = "https://www.googleapis.com/books/v1/volumes?q=" + title + "+intitle:" + title + "+inpublisher:" + publisher + "+isbn:" + ISBN + "&key=" + keyHolder.key2;
 				JSONObject result = bestsellers.sendGet(url);
 				Thread.sleep(125);
 				if (result.getInt("totalItems") == 1){
@@ -205,10 +205,10 @@ private static void generateCsvFile(String sFileName, ArrayList<Book> bookArr)
 	    categories.add("publisher");
 	    categories.add("bookURL");
 	    categories.add("googTitle");
-	    categories.add("googAuths");
+	    //categories.add("googAuths");
 	    categories.add("googPublisher");
 	    categories.add("googPublishDate");
-	    categories.add("googDescription");
+	    //categories.add("googDescription");
 	    categories.add("googISBN");
 	    categories.add("googModeText");
 	    categories.add("googModeImage");
@@ -229,7 +229,7 @@ private static void generateCsvFile(String sFileName, ArrayList<Book> bookArr)
 	    categories.add("googTextToSpeech");
 	    categories.add("googAccessStatus");
 	    categories.add("googQuoteShare");
-	    categories.add("googSnippet");
+	    //categories.add("googSnippet");
 	    
 	    // headers
 	    for (int i = 0; i < categories.size(); i++){
@@ -267,8 +267,8 @@ private static void generateCsvFile(String sFileName, ArrayList<Book> bookArr)
 	    	writer.append(", ");
 	    	writer.append(bookArr.get(i).googTitle);
 	    	writer.append(", ");
-	    	writer.append(bookArr.get(i).googAuths);
-	    	writer.append(", ");
+//	    	writer.append(bookArr.get(i).googAuths);
+//	    	writer.append(", ");
 	    	writer.append(bookArr.get(i).googPublisher);
 	    	writer.append(", ");
 	    	writer.append(bookArr.get(i).googPublishDate);
@@ -277,8 +277,8 @@ private static void generateCsvFile(String sFileName, ArrayList<Book> bookArr)
 	    	writer.append(", ");
 	    	writer.append(bookArr.get(i).googAuths);
 	    	writer.append(", ");
-	    	writer.append(bookArr.get(i).googDescription);
-	    	writer.append(", ");
+//	    	writer.append(bookArr.get(i).googDescription);
+//	    	writer.append(", ");
 	    	writer.append(bookArr.get(i).googISBN);
 	    	writer.append(", ");
 	    	writer.append(Boolean.toString(bookArr.get(i).googModeText));
@@ -318,8 +318,8 @@ private static void generateCsvFile(String sFileName, ArrayList<Book> bookArr)
 	    	writer.append(bookArr.get(i).googAccessStatus);
 	    	writer.append(", ");
 	    	writer.append(Boolean.toString(bookArr.get(i).googQuoteShare));
-	    	writer.append(", ");
-	    	writer.append(bookArr.get(i).googSnippet);
+//	    	writer.append(", ");
+//	    	writer.append(bookArr.get(i).googSnippet);
 	    	writer.append('\n');
 	    }
 	    
