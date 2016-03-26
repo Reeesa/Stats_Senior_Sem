@@ -65,16 +65,39 @@ public class Book {
 			bk.bookURL = googleJSON.getString("selfLink");
 			JSONObject volInfo = googleJSON.getJSONObject("volumeInfo");
 			bk.googTitle = volInfo.getString("title");
-			JSONArray authors = volInfo.getJSONArray("authors");
-			bk.googAuths = (String)authors.get(0);
-			for (int a = 1; a < authors.length(); a++){
-				bk.googAuths = bk.googAuths + " : " + (String)authors.get(a);
+			
+			try{
+				JSONArray authors = volInfo.getJSONArray("authors");
+				bk.googAuths = (String)authors.get(0);
+				for (int a = 1; a < authors.length(); a++){
+					bk.googAuths = bk.googAuths + " : " + (String)authors.get(a);
+				}
 			}
+			catch (Exception e) {
+			}
+			
+			try{
 			bk.googPublisher = volInfo.getString("publisher");
+			}
+			catch (Exception E){	
+			}
+			
 			bk.googPublishDate = volInfo.getString("publishedDate");
-			bk.googDescription = volInfo.getString("description");
-			JSONArray identifiers = volInfo.getJSONArray("industryIdentifiers");
-			bk.googISBN = identifiers.getString(1);
+			
+			try{
+				bk.googDescription = volInfo.getString("description");
+			}
+			catch (Exception e){
+			}
+			
+			try{
+				JSONArray identifiers = volInfo.getJSONArray("industryIdentifiers");
+				bk.googISBN = identifiers.getString(1);
+			}
+			catch (Exception e) {
+			}
+			
+			
 			JSONObject readModes = volInfo.getJSONObject("readingModes");
 			bk.googModeText = readModes.getBoolean("text");
 			bk.googModeImage = readModes.getBoolean("image");
@@ -85,28 +108,47 @@ public class Book {
 			for (int c = 1; c < cats.length(); c++){
 				bk.googCats = bk.googCats + " : " + cats.getString(c);
 			}
-			bk.googAvgRating = volInfo.getInt("averageRating");
-			bk.googRatingCount = volInfo.getInt("ratingsCount");
-			bk.googMaturity = volInfo.getString("maturityRating");
-			bk.googLang = volInfo.getString("language");
+			
+			try{
+				bk.googAvgRating = volInfo.getInt("averageRating");
+				bk.googRatingCount = volInfo.getInt("ratingsCount");
+				bk.googMaturity = volInfo.getString("maturityRating");
+				bk.googLang = volInfo.getString("language");
+			}
+			catch(Exception e){
+			}
 
 			JSONObject saleInfo = googleJSON.getJSONObject("saleInfo");
 			bk.googCountry = saleInfo.getString("country");
 			bk.googEbook = saleInfo.getBoolean("isEbook");
-			JSONObject listPrice = saleInfo.getJSONObject("listPrice");
-			bk.googListPrice = listPrice.getDouble("listPrice");
-			JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
-			bk.googRetailPrice = retailPrice.getDouble("amount");
+			
+			try{
+				JSONObject listPrice = saleInfo.getJSONObject("listPrice");
+				bk.googListPrice = listPrice.getDouble("amount");
+				JSONObject retailPrice = saleInfo.getJSONObject("retailPrice");
+				bk.googRetailPrice = retailPrice.getDouble("amount");
+			}
+			catch (Exception e){
+			}
+			
+			try{
+				JSONObject accessInfo = googleJSON.getJSONObject("accessInfo");
+				bk.googViewability = accessInfo.getString("viewability");
+				bk.googEmbeddable = accessInfo.getBoolean("embeddable");
+				bk.googPublicDomain = accessInfo.getBoolean("publicDomain");
+				bk.googTextToSpeech = accessInfo.getString("textToSpeechPermission");
+				bk.googAccessStatus = accessInfo.getString("accessViewStatus");
+				bk.googQuoteShare = accessInfo.getBoolean("quoteSharingAllowed");
+			}
+			catch (Exception e){
+			}
 
-			JSONObject accessInfo = googleJSON.getJSONObject("accessInfo");
-			bk.googViewability = accessInfo.getString("viewability");
-			bk.googEmbeddable = accessInfo.getBoolean("embeddable");
-			bk.googPublicDomain = accessInfo.getBoolean("publicDomain");
-			bk.googTextToSpeech = accessInfo.getString("textToSpeechPermission");
-			bk.googAccessStatus = accessInfo.getString("accessViewStatus");
-			bk.googQuoteShare = accessInfo.getBoolean("quoteSharingAllowed");
-			JSONObject searchInfo = accessInfo.getJSONObject("searchInfo");
-			bk.googSnippet = searchInfo.getString("textSnippet");
+			try{
+				JSONObject searchInfo = googleJSON.getJSONObject("searchInfo");
+				bk.googSnippet = searchInfo.getString("textSnippet");
+			}
+			catch (Exception e){
+			}
 
 		}
 		catch (Exception e){
